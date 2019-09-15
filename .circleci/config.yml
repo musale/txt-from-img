@@ -32,14 +32,6 @@ commands:
             sudo pip install pipenv
             sudo pipenv install --system
 
-      - run:
-          name: Configure AWS cli
-          command: |
-            mkdir ~/.aws
-            pipenv run  aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-            pipenv run  aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-            cp .circleci/aws_config ~/.aws/config
-
       - save_cache:
           key: deps-cache-v3-{{ checksum "Pipfile.lock" }}
           paths:
@@ -74,6 +66,7 @@ commands:
       - run:
           name: Package and deploy lambda functions to AWS
           command: |
+            sudo serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY
             npm install
             sudo serverless package
             sudo serverless deploy
@@ -88,7 +81,7 @@ jobs:
       - deploy
 
 workflows:
-  version: 2
+  version: 2.1
 
   tests:
     jobs:
