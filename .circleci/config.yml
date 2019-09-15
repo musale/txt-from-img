@@ -33,7 +33,7 @@ commands:
           name: Install Python dependencies
           command: |
             sudo pip install pipenv
-            pipenv install --system --user
+            pipenv install
 
       - save_cache:
           key: deps-cache-{{ checksum "Pipfile.lock" }}
