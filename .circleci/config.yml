@@ -72,10 +72,6 @@ commands:
     steps:
       - checkout
       - serverless
-      - restore_cache:
-          keys:
-            - serverless-cache-{{ checksum "package.json" }}
-            - serverless-cache-
       - run:
           name: Package and deploy lambda functions to AWS
           command: |
