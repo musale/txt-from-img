@@ -3,7 +3,7 @@ version: 2.1
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/python:3.6.1
+    - image: nikolaik/python3.6-nodejs12:latest
 
 commands:
   system:
@@ -45,17 +45,37 @@ commands:
           paths:
             - "/home/circleci/.local/share/virtualenvs"
 
+  serverless:
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - serverless-cache-{{ checksum "package.json" }}
+            - serverless-cache-
+
+      - run:
+          name: Install serverless for packaging and deploying to AWS lambda
+          command: |
+            npm install serverless -g
+            npm install
+
+      - save_cache:
+          key: serverless-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
   deploy:
     steps:
       - checkout
       - restore_cache:
           keys:
-            - deps-cache-v3-{{ checksum "Pipfile.lock" }}
-            - deps-cache-v3-
+            - serverless-cache-{{ checksum "package.json" }}
+            - serverless-cache-
       - run:
-          name: Deploy function to AWS
+          name: Package and deploy lambda functions to AWS
           command: |
-            pipenv run aws s3 ls
+            serverless package
+            serverless deploy
 
 jobs:
   lambda:
@@ -64,6 +84,7 @@ jobs:
       - pydeps
       - system
       - run: make lint tests
+      - serverless
       - deploy
 
 workflows:
