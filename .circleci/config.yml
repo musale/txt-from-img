@@ -17,7 +17,9 @@ commands:
               libleptonica-dev \
               tesseract-ocr-eng \
               tesseract-ocr \
-              wget
+              wget libjpeg-devel libpng-devel libtiff-devel zlib-devel \
+              libzip-devel freetype-devel lcms2-devel libwebp-devel \
+              tcl-devel tk-devel
             wget -O - https://github.com/nijel/tesseract-ocr-build/releases/download/4.0.0-1/tesseract.tar.xz | tar -xJf -
             sudo cp -rt /usr .tesseract/*
 
