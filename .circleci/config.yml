@@ -46,9 +46,6 @@ jobs:
     steps:
       - pydeps
       - system
-      - run: ls -lha
-      - run: ls tests
-      - run: ls tests/data
       - run: make lint tests
 
 workflows:
