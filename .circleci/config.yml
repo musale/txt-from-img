@@ -1,18 +1,18 @@
-version: 2
-jobs:
-  build:
-    docker:
-      - image: circleci/python:3.6.1
+version: 2.1
 
-    working_directory: ~/repo
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/python:3.6.1
 
+commands:
+  install:
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "Pipfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            - deps-cache-{{ checksum "Pipfile.lock" }}
+            - deps-cache-
 
       - run:
           name: install dependencies
@@ -21,19 +21,27 @@ jobs:
             sudo pip install pipenv
             pipenv install --system
 
-
-     - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
-          key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+      - save_cache:
+          key: deps-cache-{{ checksum "Pipfile.lock" }}
           paths:
             - ".venv"
             - "/usr/local/bin"
             - "/usr/local/lib/python3.6/site-packages"
 
-      - run:
-          name: run tests
-          command: |
-            make test
+jobs:
+  function:
+    <<: *defaults
+    steps:
+      - install
+      - run: pipenv run pytest
 
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+workflows:
+  version: 2
+
+  tests:
+    jobs:
+      - function:
+          filters:
+            branches:
+              only:
+                - master
