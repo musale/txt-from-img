@@ -23,7 +23,6 @@ commands:
 
   pydeps:
     steps:
-      - run: sudo apt-get -qq update; sudo apt-get -y install git
       - checkout
       - restore_cache:
           keys:
@@ -47,8 +46,8 @@ jobs:
   lambda:
     <<: *defaults
     steps:
-      - system
       - pydeps
+      - system
       - run: pipenv run pytest
 
 workflows:
