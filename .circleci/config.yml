@@ -16,10 +16,7 @@ commands:
               libtesseract-dev \
               libleptonica-dev \
               tesseract-ocr-eng \
-              tesseract-ocr \
-              wget
-            # wget -O - https://github.com/nijel/tesseract-ocr-build/releases/download/4.0.0-1/tesseract.tar.xz | tar -xJf -
-            # sudo cp -rt /usr .tesseract/*
+              tesseract-ocr
 
   pydeps:
     steps:
@@ -35,10 +32,30 @@ commands:
             sudo pip install pipenv
             pipenv install
 
+      - run:
+          name: Configure AWS cli
+          command: |
+            mkdir ~/.aws
+            pipenv run  aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            pipenv run  aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            cp .circleci/aws_config ~/.aws/config
+
       - save_cache:
           key: deps-cache-v3-{{ checksum "Pipfile.lock" }}
           paths:
             - "/home/circleci/.local/share/virtualenvs"
+
+  deploy:
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - deps-cache-v3-{{ checksum "Pipfile.lock" }}
+            - deps-cache-v3-
+      - run
+          name: Deploy function to AWS
+          command: |
+          pipenv run aws s3 ls
 
 jobs:
   lambda:
@@ -47,6 +64,7 @@ jobs:
       - pydeps
       - system
       - run: make lint tests
+      - deploy
 
 workflows:
   version: 2
