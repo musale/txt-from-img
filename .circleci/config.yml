@@ -22,7 +22,6 @@ commands:
 
   pydeps:
     steps:
-      - checkout
       - restore_cache:
           keys:
             - deps-cache-{{ checksum "Pipfile.lock" }}
