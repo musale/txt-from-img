@@ -38,7 +38,7 @@ commands:
       - save_cache:
           key: deps-cache-v2-{{ checksum "Pipfile.lock" }}
           paths:
-            - ".venv"
+            - "/home/circleci/.local/share/virtualenvs"
             - "/usr/local/bin"
             - "/usr/local/lib/python3.6/site-packages"
 

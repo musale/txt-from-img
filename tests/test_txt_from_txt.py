@@ -32,7 +32,7 @@ def test_main_fails_base64_decode():
 def test_main_passes():
     event = {}
     context = {}
-    image_path = Path.cwd() / "tests/data/img.png"
+    image_path = Path("tests/data/img.png")
     assert image_path.exists() is True
 
     with image_path.open("rb") as image_file:
