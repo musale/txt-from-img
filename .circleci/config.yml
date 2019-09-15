@@ -17,7 +17,7 @@ commands:
               libleptonica-dev \
               tesseract-ocr-eng \
               tesseract-ocr \
-              wget libjpeg-turbo8
+              wget libjpeg62 libfontconfig-dev
             wget -O - https://github.com/nijel/tesseract-ocr-build/releases/download/4.0.0-1/tesseract.tar.xz | tar -xJf -
             sudo cp -rt /usr .tesseract/*
 
