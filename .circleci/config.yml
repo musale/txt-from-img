@@ -57,12 +57,10 @@ commands:
           name: Install serverless for packaging and deploying to AWS lambda
           command: |
             sudo apt-get install -y curl
-            curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
             curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
             sudo bash nodesource_setup.sh
             sudo apt install nodejs
             sudo npm install serverless -g
-            sudo npm install
 
       - save_cache:
           key: serverless-cache-{{ checksum "package.json" }}
@@ -76,6 +74,7 @@ commands:
       - run:
           name: Package and deploy lambda functions to AWS
           command: |
+            npm install
             serverless package
             serverless deploy
 
