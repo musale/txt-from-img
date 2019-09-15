@@ -4,7 +4,6 @@ defaults: &defaults
   working_directory: ~/repo
   docker:
     - image: circleci/python:3.6.1
-    - image: circleci/node:10
 
 commands:
   system:
@@ -17,7 +16,8 @@ commands:
               libtesseract-dev \
               libleptonica-dev \
               tesseract-ocr-eng \
-              tesseract-ocr
+              tesseract-ocr \
+              nodejs
 
   pydeps:
     steps:
