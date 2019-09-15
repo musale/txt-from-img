@@ -18,8 +18,8 @@ commands:
               tesseract-ocr-eng \
               tesseract-ocr \
               wget
-            wget -O - https://github.com/nijel/tesseract-ocr-build/releases/download/4.0.0-1/tesseract.tar.xz | tar -xJf -
-            sudo cp -rt /usr .tesseract/*
+            # wget -O - https://github.com/nijel/tesseract-ocr-build/releases/download/4.0.0-1/tesseract.tar.xz | tar -xJf -
+            # sudo cp -rt /usr .tesseract/*
 
   pydeps:
     steps:
