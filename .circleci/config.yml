@@ -26,8 +26,8 @@ commands:
       - checkout
       - restore_cache:
           keys:
-            - deps-cache-v2-{{ checksum "Pipfile.lock" }}
-            - deps-cache-v2-
+            - deps-cache-v3-{{ checksum "Pipfile.lock" }}
+            - deps-cache-v3-
 
       - run:
           name: Install Python dependencies
@@ -36,11 +36,9 @@ commands:
             pipenv install
 
       - save_cache:
-          key: deps-cache-v2-{{ checksum "Pipfile.lock" }}
+          key: deps-cache-v3-{{ checksum "Pipfile.lock" }}
           paths:
             - "/home/circleci/.local/share/virtualenvs"
-            - "/usr/local/bin"
-            - "/usr/local/lib/python3.6/site-packages"
 
 jobs:
   lambda:
