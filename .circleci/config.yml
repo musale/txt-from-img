@@ -3,7 +3,7 @@ version: 2.1
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: nikolaik/python3.6-nodejs12:latest
+    - image: nikolaik/python-nodejs:latest
 
 commands:
   system:
