@@ -68,6 +68,7 @@ commands:
   deploy:
     steps:
       - checkout
+      - serverless
       - restore_cache:
           keys:
             - serverless-cache-{{ checksum "package.json" }}
@@ -85,7 +86,6 @@ jobs:
       - pydeps
       - system
       - run: make lint tests
-      - serverless
       - deploy
 
 workflows:
