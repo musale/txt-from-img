@@ -60,7 +60,7 @@ commands:
             curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
             sudo bash nodesource_setup.sh
             sudo apt install nodejs
-            sudo npm install serverless -g
+            sudo npm install -g serverless
 
       - save_cache:
           key: serverless-cache-{{ checksum "package.json" }}
@@ -75,8 +75,8 @@ commands:
           name: Package and deploy lambda functions to AWS
           command: |
             npm install
-            serverless package
-            serverless deploy
+            sudo serverless package
+            sudo serverless deploy
 
 jobs:
   lambda:
