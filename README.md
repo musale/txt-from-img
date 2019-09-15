@@ -3,7 +3,7 @@
 
 # Extract text from image
 
-> This project uses the tesseract project to extract characters from an image. It's deployed as a lambda function [here](https://6t66putxq1.execute-api.us-east-2.amazonaws.com/dev/txt-from-img).
+> This project uses the tesseract project to extract characters from an image. It's deployed as a lambda function [here](https://6t66putxq1.execute-api.us-east-2.amazonaws.com/dev/txt-from-img). Currently, only text in English language can be processed. Other options are possible but are not covered.
 
 ## Getting started
 
@@ -77,6 +77,14 @@ Which has the response:
 - [Docker](https://www.docker.com/)
 - [Serverless](https://serverless.com/)
 
-### Special SO
+### Special S/O
 
 - [gwittchen](https://github.com/gwittchen/lambda-ocr) for most of the steps in packaging this.
+
+### Some thoughts
+
+1. Security: this is a public API. To mitigate some security issues like being spoofed I could implement an Authentication layer and add it to the function using `authorizer`. For bad requests, that is handled by exceptions so not thinking of much now. Maybe ratelimit?
+
+2. Large files: this would require a re-think. Maybe chunk the files and have md5 sums to assemble the chunks? gzip?
+
+3. Cache: maybe have a redis instance that I can connect to and check before processing valid base64 images. Still a stretch and unnecessary as it's beating the purpose of making this a lambda function :clown_face:
