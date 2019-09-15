@@ -6,7 +6,41 @@ defaults: &defaults
     - image: circleci/python:3.6.1
 
 commands:
-  install:
+  system:
+    steps:
+      run:
+        name: install system dependencies
+        command: |
+          sudo apt-get update --fix-missing
+          sudo apt install gcc gcc-c++ make autoconf aclocal automake libtool \
+                    libjpeg-devel libpng-devel libtiff-devel zlib-devel \
+                    libzip-devel freetype-devel lcms2-devel libwebp-devel \
+                    tcl-devel tk-devel
+  leptonica:
+    steps:
+      run:
+        name: install leptonica
+        command: |
+          mkdir leptonica
+          cd leptonica
+          wget http://www.leptonica.org/source/leptonica-1.74.1.tar.gz
+          tar -zxvf leptonica-*.tar.gz
+          cd leptonica-*
+          ./configure
+          make
+          sudo make install
+  tesseract:
+    steps:
+      run:
+        name: install tesseract
+        command: |
+          git clone --branch 4.00.00alpha https://github.com/tesseract-ocr/tesseract.git
+          cd tesseract
+          ./autogen.sh
+          ./configure --enable-debug
+          LDFLAGS="-L/usr/local/lib" CFLAGS="-I/usr/local/include" make
+          sudo make install
+  pydeps:
     steps:
       - checkout
       - restore_cache:
@@ -15,9 +49,8 @@ commands:
             - deps-cache-
 
       - run:
-          name: install dependencies
+          name: install Python dependencies
           command: |
-            sudo apt install tesseract-ocr libtesseract-dev make
             sudo pip install pipenv
             pipenv install --system
 
@@ -32,7 +65,10 @@ jobs:
   function:
     <<: *defaults
     steps:
-      - install
+      - system
+      - leptonica
+      - tesseract
+      - pydeps
       - run: pipenv run pytest
 
 workflows:
