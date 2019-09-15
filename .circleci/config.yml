@@ -55,7 +55,7 @@ commands:
       - run:
           name: Deploy function to AWS
           command: |
-          pipenv run aws s3 ls
+            pipenv run aws s3 ls
 
 jobs:
   lambda:
