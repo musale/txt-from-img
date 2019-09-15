@@ -57,6 +57,7 @@ commands:
           name: Install serverless for packaging and deploying to AWS lambda
           command: |
             sudo apt-get install -y curl
+            curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
             curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
             sudo bash nodesource_setup.sh
             sudo apt install nodejs
