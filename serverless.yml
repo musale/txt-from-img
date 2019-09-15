@@ -22,7 +22,7 @@ custom:
   pythonRequirements:
     fileName: requirements/requirements.txt
     zip: false
-    dockerizePip: true
+    dockerizePip: false
     usePoetry: false
   app_acronym: txt-from-img
   default_stage: dev
