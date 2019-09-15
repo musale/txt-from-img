@@ -60,9 +60,8 @@ commands:
             curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
             sudo bash nodesource_setup.sh
             sudo apt install nodejs
-            nodejs -v
-            npm install serverless -g
-            npm install
+            sudo npm install serverless -g
+            sudo npm install
 
       - save_cache:
           key: serverless-cache-{{ checksum "package.json" }}
