@@ -9,26 +9,18 @@ commands:
   system:
     steps:
       - run:
-          name: install system dependencies
+          name: Install system dependencies
           command: |
             sudo apt-get update --fix-missing
             sudo apt-get install -y git \
               libtesseract-dev \
               libleptonica-dev \
               tesseract-ocr-eng \
-              tesseract-ocr
+              tesseract-ocr \
+              wget
+            wget -O - https://github.com/nijel/tesseract-ocr-build/releases/download/4.0.0-1/tesseract.tar.xz | tar -xJf -
+            sudo cp -rt /usr .tesseract/*
 
-  tesseract:
-    steps:
-      - run:
-          name: install tesseract
-          command: |
-            git clone --branch 4.00.00alpha https://github.com/tesseract-ocr/tesseract.git
-            cd tesseract
-            ./autogen.sh
-            ./configure --enable-debug
-            LDFLAGS="-L/usr/local/lib" CFLAGS="-I/usr/local/include" make
-            sudo make install
   pydeps:
     steps:
       - checkout
@@ -38,7 +30,7 @@ commands:
             - deps-cache-
 
       - run:
-          name: install Python dependencies
+          name: Install Python dependencies
           command: |
             sudo pip install pipenv
             pipenv install --system
@@ -51,11 +43,10 @@ commands:
             - "/usr/local/lib/python3.6/site-packages"
 
 jobs:
-  function:
+  lambda:
     <<: *defaults
     steps:
       - system
-      - tesseract
       - pydeps
       - run: pipenv run pytest
 
@@ -64,7 +55,7 @@ workflows:
 
   tests:
     jobs:
-      - function:
+      - lambda:
           filters:
             branches:
               only:
