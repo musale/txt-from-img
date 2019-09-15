@@ -56,7 +56,10 @@ commands:
       - run:
           name: Install serverless for packaging and deploying to AWS lambda
           command: |
-            sudo apt-get install -y nodejs
+            sudo apt-get install -y curl
+            curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
+            sudo bash nodesource_setup.sh
+            sudo apt install nodejs
             nodejs -v
             npm install serverless -g
             npm install
