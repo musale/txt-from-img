@@ -30,7 +30,7 @@ commands:
           name: Install Python dependencies
           command: |
             sudo pip install pipenv
-            pipenv install
+            pipenv install --system
 
       - run:
           name: Configure AWS cli
