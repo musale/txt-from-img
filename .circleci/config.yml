@@ -12,23 +12,11 @@ commands:
           name: install system dependencies
           command: |
             sudo apt-get update --fix-missing
-            sudo apt install gcc gcc-c++ make autoconf aclocal automake libtool \
-                      libjpeg-devel libpng-devel libtiff-devel zlib-devel \
-                      libzip-devel freetype-devel lcms2-devel libwebp-devel \
-                      tcl-devel tk-devel
-  leptonica:
-    steps:
-      - run:
-          name: install leptonica
-          command: |
-            mkdir leptonica
-            cd leptonica
-            wget http://www.leptonica.org/source/leptonica-1.74.1.tar.gz
-            tar -zxvf leptonica-*.tar.gz
-            cd leptonica-*
-            ./configure
-            make
-            sudo make install
+            sudo apt-get install -y git \
+              libtesseract-dev \
+              libleptonica-dev \
+              tesseract-ocr-eng \
+              tesseract-ocr
 
   tesseract:
     steps:
@@ -67,7 +55,6 @@ jobs:
     <<: *defaults
     steps:
       - system
-      - leptonica
       - tesseract
       - pydeps
       - run: pipenv run pytest
