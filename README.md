@@ -1,6 +1,9 @@
+[![CircleCI](https://circleci.com/gh/musale/txt-from-img.svg?style=svg)](https://circleci.com/gh/musale/txt-from-img)
+[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
+
 # Extract text from image
 
-> This project uses the tesseract project to extract characters from an image. It's deployed as a lambda function [here]().
+> This project uses the tesseract project to extract characters from an image. It's deployed as a lambda function [here](https://6t66putxq1.execute-api.us-east-2.amazonaws.com/dev/txt-from-img).
 
 ## Getting started
 
