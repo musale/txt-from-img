@@ -24,11 +24,10 @@ commands:
   pydeps:
     steps:
       - checkout
-      - run: ls -lha
       - restore_cache:
           keys:
-            - deps-cache-{{ checksum "Pipfile.lock" }}
-            - deps-cache-
+            - deps-cache-v2-{{ checksum "Pipfile.lock" }}
+            - deps-cache-v2-
 
       - run:
           name: Install Python dependencies
@@ -37,7 +36,7 @@ commands:
             pipenv install
 
       - save_cache:
-          key: deps-cache-{{ checksum "Pipfile.lock" }}
+          key: deps-cache-v2-{{ checksum "Pipfile.lock" }}
           paths:
             - ".venv"
             - "/usr/local/bin"
@@ -49,7 +48,7 @@ jobs:
     steps:
       - pydeps
       - system
-      - run: pipenv run pytest
+      - run: make lint tests
 
 workflows:
   version: 2
