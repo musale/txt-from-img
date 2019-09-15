@@ -52,7 +52,7 @@ commands:
           keys:
             - deps-cache-v3-{{ checksum "Pipfile.lock" }}
             - deps-cache-v3-
-      - run
+      - run:
           name: Deploy function to AWS
           command: |
           pipenv run aws s3 ls
